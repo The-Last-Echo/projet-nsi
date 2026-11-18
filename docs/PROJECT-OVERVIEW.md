@@ -1,6 +1,6 @@
 # Présentation du projet
 
-Ce document rassemble les informations connues sur le projet. Il doit évoluer à mesure que le groupe précise le concept et prend ses décisions.
+Ce document rassemble les informations connues sur le projet. Il sera mis à jour à mesure que le groupe précise le concept et valide ses choix.
 
 ## 1. Contexte
 
@@ -12,7 +12,7 @@ Le développement est effectué en Python par une équipe de deux à trois élè
 
 Le projet prendra la forme d'un jeu jouable dans un terminal ou une console.
 
-Le concept exact, les objectifs, les règles, les mécaniques et les conditions de victoire ou de défaite restent à définir collectivement. Aucune mécanique de jeu ne doit être considérée comme décidée tant qu'elle n'a pas été validée par le groupe.
+Le concept exact, les objectifs, les règles, les mécaniques et les conditions de victoire ou de défaite restent à définir collectivement. Aucune mécanique ne doit être considérée comme décidée tant qu'elle n'a pas été validée par l'équipe.
 
 ## 3. Choix techniques connus
 
@@ -20,16 +20,18 @@ Le concept exact, les objectifs, les règles, les mécaniques et les conditions 
 |---|---|
 | Langage | Python |
 | Interface | Terminal / console |
-| Grille | Une représentation par liste de listes est envisagée |
-| Représentation du joueur | Un caractère ou un symbole est envisagé |
+| Code source | Dossier `src/` prévu, à créer avec le premier code |
+| Tests | Dossier `tests/` prévu, à créer avec les premiers tests |
+| Environnement Python | Environnement virtuel `.venv` par membre |
 | Gestion de versions | Git |
 | Hébergement et collaboration | GitHub |
 | Dépôt | `The-Last-Echo/projet-nsi` |
 | Branche principale | `main` |
-| Communication d'équipe | Discord |
+| Communication rapide | Discord |
+| Cahier des charges et comptes rendus | Word partagé |
 | Éditeur recommandé | Visual Studio Code, sans obligation |
 
-La liste de listes et la représentation du joueur sont des pistes connues, mais leurs détails restent à valider pendant la conception technique.
+La structure du code, le point d'entrée et la version minimale de Python restent à définir.
 
 ## 4. Organisation du développement
 
@@ -37,8 +39,9 @@ La liste de listes et la représentation du joueur sont des pistes connues, mais
 - Les branches suivent les préfixes `feature/`, `fix/`, `docs/` et `refactor/`.
 - Les messages de commit suivent Conventional Commits et sont rédigés en anglais.
 - Les modifications destinées à `main` passent par une Pull Request.
-- La méthode de fusion prévue est Squash and merge.
-- Les décisions importantes doivent être conservées dans la documentation du dépôt, et pas uniquement dans les échanges Discord.
+- La méthode de fusion retenue est Squash and merge.
+- Une Issue est utilisée lorsqu'elle aide à suivre un bug, une fonctionnalité ou une tâche ; elle n'est pas obligatoire pour chaque petite modification.
+- Les décisions importantes doivent être conservées dans la documentation du dépôt, pas uniquement dans les échanges Discord ou Word.
 
 Les règles détaillées sont décrites dans [`GITHUB-CONFIGURATION.md`](GITHUB-CONFIGURATION.md) et [`COLLABORATION-GUIDE.md`](COLLABORATION-GUIDE.md).
 
@@ -48,7 +51,7 @@ Les règles détaillées sont décrites dans [`GITHUB-CONFIGURATION.md`](GITHUB-
 - [ ] Concept et objectif principal.
 - [ ] Règles complètes.
 - [ ] Conditions de victoire et de défaite.
-- [ ] Dimensions et contenu de la grille.
+- [ ] Dimensions et contenu de la grille, si le jeu en utilise une.
 - [ ] Déplacements et interactions.
 - [ ] Éléments présents dans le jeu.
 - [ ] Gestion de l'état du jeu.
@@ -56,13 +59,15 @@ Les règles détaillées sont décrites dans [`GITHUB-CONFIGURATION.md`](GITHUB-
 - [ ] Organisation des modules Python.
 - [ ] Répartition des responsabilités dans l'équipe.
 - [ ] Version minimale de Python.
-- [ ] Stratégie de tests.
+- [ ] Dépendances éventuelles.
+- [ ] Stratégie et outils de tests.
 
-Cette liste n'impose aucune mécanique : elle sert uniquement à ne pas oublier les sujets à discuter.
+Cette liste sert à guider la conception ; elle n'impose aucune mécanique de jeu.
 
 ## 6. Documents associés
 
-- [`TECHNICAL-DESIGN.md`](TECHNICAL-DESIGN.md) : future conception technique.
-- [`DECISIONS.md`](DECISIONS.md) : historique des décisions.
-- [`GITHUB-CONFIGURATION.md`](GITHUB-CONFIGURATION.md) : règles de collaboration.
-- [`../README.md`](../README.md) : présentation à destination des visiteurs du dépôt.
+- [`TECHNICAL-DESIGN.md`](TECHNICAL-DESIGN.md) : conception technique à compléter lorsque les règles seront connues.
+- [`DECISIONS.md`](DECISIONS.md) : décisions structurantes validées par l'équipe.
+- [`GITHUB-CONFIGURATION.md`](GITHUB-CONFIGURATION.md) : organisation du dépôt et règles GitHub.
+- [`PYTHON-ENVIRONMENT.md`](PYTHON-ENVIRONMENT.md) : création et utilisation de l'environnement virtuel.
+- [`../README.md`](../README.md) : présentation générale du dépôt.
