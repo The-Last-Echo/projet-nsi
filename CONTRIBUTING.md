@@ -1,123 +1,126 @@
 # Contribuer au projet
 
-Ce fichier explique comment proposer une modification au dépôt. Il est volontairement pratique : pour comprendre les notions Git en détail, consulte le [guide Git](docs/GIT-GUIDE.md). Pour suivre toutes les étapes de collaboration, consulte le [guide de collaboration](docs/COLLABORATION-GUIDE.md).
+Ce fichier résume la procédure pour proposer une modification. Les explications détaillées sont dans le [guide Git](docs/GIT-GUIDE.md) et le [guide de collaboration](docs/COLLABORATION-GUIDE.md).
 
 ## Avant de commencer
 
-- Vérifie qu'une Issue existe déjà pour le travail envisagé. Si ce n'est pas le cas, crée-en une ou demande à l'équipe de clarifier le besoin.
-- Vérifie que tu as accepté ton invitation de collaborateur et que tu peux accéder au dépôt.
-- Ne travaille pas directement sur `main`.
+- Vérifie que tu as accepté ton invitation de collaborateur GitHub et que tu peux accéder au dépôt.
+- Ne travaille jamais directement sur `main`.
+- Pour une fonctionnalité, un bug ou un travail qui nécessite un suivi, utilise une Issue si cela aide l'équipe. **Une Issue n'est pas obligatoire pour chaque petite modification.**
 - Ne place jamais de mot de passe, token, clé API ou fichier contenant des secrets dans le dépôt.
 
-## 1. Récupérer le dépôt
+## 1. Récupérer les dernières modifications
 
-Pour la première installation :
+Si le dépôt n'est pas encore sur ton ordinateur :
 
 ```bash
 git clone https://github.com/The-Last-Echo/projet-nsi.git
 cd projet-nsi
 ```
 
-Si le dépôt est déjà présent sur ton ordinateur :
+Si tu as déjà le dépôt :
 
 ```bash
-cd chemin/vers/projet-nsi
 git status
 git switch main
 git pull --ff-only
 ```
 
-Avant de changer de branche, vérifie que `git status` ne signale pas de modifications locales que tu souhaites conserver.
+Si `git status` montre des modifications locales, ne change pas de branche avant de les avoir conservées ou terminées.
 
 ## 2. Créer une branche
 
-Chaque tâche doit être développée sur sa propre branche, créée à partir de `main` à jour.
+Crée une branche à partir de `main` à jour. Choisis un nom court, descriptif, en minuscules :
 
 ```bash
-git switch -c feature/short-description
+git switch -c feature/player-movement
 ```
 
-Préfixes utilisés dans le projet :
+Préfixes utilisés :
 
-- `feature/` : ajout d'une fonctionnalité ;
+- `feature/` : nouvelle fonctionnalité ;
 - `fix/` : correction d'un problème ;
-- `docs/` : modification de la documentation ;
+- `docs/` : documentation ;
 - `refactor/` : réorganisation du code sans changer son comportement attendu.
 
-Utilise un nom court, descriptif, en minuscules, avec des tirets si nécessaire. Exemple : `docs/update-git-guide`.
+## 3. Modifier les fichiers et créer un commit
 
-## 3. Développer et préparer les changements
-
-Travaille sur la tâche décrite dans l'Issue. Avant de créer un commit, vérifie ce qui a changé :
+Fais des changements ciblés. Avant de créer un commit, regarde ce qui a changé :
 
 ```bash
 git status
 git diff
 ```
 
-Ajoute uniquement les fichiers liés à ta modification :
+Ajoute les fichiers concernés, puis vérifie exactement ce qui sera enregistré :
 
 ```bash
-git add chemin/du/fichier.py
+git add chemin/du/fichier
 git diff --staged
 ```
 
-Puis crée un commit dont le message respecte Conventional Commits, en anglais :
+Crée un commit avec un message en anglais suivant la convention du projet :
 
 ```bash
 git commit -m "feat(player): add player movement"
 ```
 
-Évite de regrouper des changements sans rapport dans un même commit ou une même Pull Request.
+Les types les plus utilisés sont `feat`, `fix`, `docs`, `refactor`, `test` et `chore`. Le [guide Git](docs/GIT-GUIDE.md) explique cette convention.
 
 ## 4. Envoyer la branche
 
+La première fois que tu envoies cette branche :
+
 ```bash
-git push -u origin feature/short-description
+git push -u origin feature/player-movement
 ```
 
-L'option `-u` associe la branche locale à sa branche distante. Pour les prochains envois de cette même branche, `git push` suffit généralement.
-
-## 5. Ouvrir une Pull Request
-
-Sur GitHub, ouvre une Pull Request avec :
-
-- la branche de ta tâche comme branche source (*compare*) ;
-- `main` comme branche de destination (*base*) ;
-- un titre clair respectant Conventional Commits ;
-- une description expliquant ce qui a changé et comment la modification a été vérifiée ;
-- un lien vers l'Issue associée, par exemple `Closes #12`.
-
-Ne fusionne pas toi-même la Pull Request. Le responsable de l'intégration s'occupe de la relecture et de la fusion. Si la Pull Request est ouverte par le responsable lui-même, un autre membre doit effectuer la relecture.
-
-## 6. Répondre à la review
-
-Si des changements sont demandés, effectue les corrections sur la même branche, crée un ou plusieurs commits supplémentaires, puis renvoie-les :
+Pour les prochains envois sur cette même branche :
 
 ```bash
-git add chemin/du/fichier.py
-git commit -m "fix(player): handle invalid movement"
 git push
 ```
 
-La Pull Request se met à jour automatiquement. Réponds aux commentaires lorsque tu as effectué les corrections ou lorsque tu as besoin d'une précision.
+## 5. Ouvrir une Pull Request
+
+Sur GitHub, ouvre **Pull requests → New pull request**. Sélectionne ta branche comme branche source (*compare*) et `main` comme branche de destination (*base*).
+
+Dans la Pull Request :
+
+- donne un titre clair, de préférence au format Conventional Commits ;
+- explique ce qui a changé et pourquoi ;
+- indique les vérifications effectuées ;
+- associe une Issue si la modification en concerne une, par exemple `Closes #12`.
+
+Une Pull Request (*PR*) est une proposition de modification. Elle permet de relire et discuter le changement avant son intégration dans `main`.
+
+## 6. Review et fusion
+
+Un autre membre relit la PR. Si des corrections sont demandées, effectue-les sur la même branche, crée de nouveaux commits et renvoie-les avec `git push`.
+
+Quand la PR est validée, le responsable de l'intégration la fusionne avec **Squash and merge**. Les contributeurs ne fusionnent pas directement leur branche dans `main`.
 
 ## 7. Après la fusion
 
-Une fois la Pull Request fusionnée, mets à jour ta branche principale et supprime ta branche locale :
+Vérifie que la PR est bien indiquée comme **Merged** sur GitHub. Mets ensuite `main` à jour :
 
 ```bash
 git switch main
 git pull --ff-only
-git branch -d feature/short-description
 ```
 
-La suppression de la branche distante est normalement effectuée automatiquement par GitHub après la fusion, si le paramètre correspondant est activé.
+Puis supprime la branche locale :
 
-## Quelques règles simples
+```bash
+git branch -D feature/player-movement
+```
+
+**Pourquoi `-D` ?** Le projet utilise Squash and merge : GitHub rassemble les commits de la branche dans un nouveau commit. Git peut donc ne pas reconnaître les anciens commits comme fusionnés et refuser `git branch -d`. N'utilise `-D` qu'après avoir vérifié sur GitHub que la PR correspondante est bien fusionnée et qu'aucun travail de cette branche ne reste à conserver.
+
+## Règles simples
 
 - Fais des modifications ciblées et faciles à relire.
-- N'ajoute pas de fichiers générés, temporaires ou personnels sans raison.
-- Vérifie le programme et les tests disponibles avant de demander une review.
-- Signale les bugs et les idées de travail avec une Issue plutôt que de les laisser uniquement dans Discord.
-- Si une commande Git produit un résultat inattendu, arrête-toi et demande de l'aide avant d'essayer une commande destructive.
+- Vérifie les fichiers ajoutés avant chaque commit et chaque PR.
+- Lance le programme et les tests disponibles lorsque c'est pertinent.
+- Mets à jour la documentation si le comportement ou les règles du projet changent.
+- En cas de commande inattendue ou d'incertitude, arrête-toi et demande de l'aide plutôt que d'essayer une commande destructive.

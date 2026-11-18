@@ -1,8 +1,8 @@
 # Configuration GitHub du dépôt
 
-Ce document décrit les choix d'organisation du dépôt `The-Last-Echo/projet-nsi` et les paramètres à vérifier sur GitHub. Il distingue volontairement les décisions retenues des réglages dont l'activation doit encore être contrôlée dans l'interface.
+Ce document décrit l'organisation retenue pour le dépôt `The-Last-Echo/projet-nsi`. Il sert de référence pour les membres de l'équipe et pour la personne qui administre le dépôt.
 
-> **Important :** ce document est une référence de configuration, pas une preuve que chaque option est déjà activée. Après toute modification dans les paramètres GitHub, mets cette fiche à jour.
+> **Important :** ce document décrit les réglages à conserver et les points à contrôler. Il ne remplace pas une vérification dans les paramètres GitHub : l'interface peut évoluer et seuls les réglages réellement enregistrés font foi.
 
 ## 1. Informations générales
 
@@ -14,30 +14,38 @@ Ce document décrit les choix d'organisation du dépôt `The-Last-Echo/projet-ns
 | Branche principale | `main` |
 | Langage | Python |
 | Protocole Git | HTTPS |
-| Communication | Discord, avec notifications GitHub via webhook |
+| Communication | Discord |
+| Cahier des charges et comptes rendus | Document Word partagé par l'équipe |
 
-## 2. Organisation du développement
+## 2. Rôle de chaque outil
 
-- Les développements se font sur des branches dédiées et courtes.
+- **GitHub** : code, historique, Issues, Pull Requests et documentation technique de référence.
+- **Word** : rédaction collaborative du cahier des charges et des comptes rendus de réunion. Les décisions validées qui concernent le développement doivent ensuite être reportées dans la documentation GitHub.
+- **Discord** : échanges rapides, questions et coordination. Les décisions importantes ne doivent pas rester uniquement dans une conversation Discord.
+
+## 3. Règles de collaboration
+
+- Les développements se font sur des branches dédiées.
+- Les membres ne travaillent pas directement sur `main`.
 - Les modifications destinées à `main` passent par une Pull Request.
-- On ne développe pas directement sur `main`.
-- Les PR ouvertes par les autres membres sont relues par le responsable de l'intégration.
-- Si le responsable de l'intégration est l'auteur de la PR, un autre membre effectue la review.
+- Les PR sont relues par un autre membre avant leur fusion, conformément aux règles de protection configurées.
 - La méthode de fusion retenue est **Squash and merge**.
-- La suppression automatique des branches fusionnées est souhaitée ; son état doit être vérifié dans les paramètres du dépôt.
+- La suppression automatique des branches fusionnées est souhaitée.
 
-## 3. Convention de nommage des branches
+Les étapes détaillées sont décrites dans [`COLLABORATION-GUIDE.md`](COLLABORATION-GUIDE.md).
 
-| Préfixe | Usage | Exemple |
+## 4. Nommage des branches
+
+| Préfixe | Utilisation | Exemple |
 |---|---|---|
 | `feature/` | Nouvelle fonctionnalité | `feature/grid-rendering` |
 | `fix/` | Correction | `fix/player-boundaries` |
 | `docs/` | Documentation | `docs/update-contributing` |
 | `refactor/` | Réorganisation interne | `refactor/grid-module` |
 
-Les noms sont courts, descriptifs et écrits en minuscules. Les espaces sont remplacés par des tirets.
+Les noms sont courts, descriptifs, en minuscules et sans espaces. Utilise des tirets pour séparer les mots.
 
-## 4. Commits et titres de Pull Requests
+## 5. Commits et titres de Pull Requests
 
 Le projet utilise Conventional Commits en anglais :
 
@@ -45,7 +53,7 @@ Le projet utilise Conventional Commits en anglais :
 <type>(<scope>): <short description>
 ```
 
-Types utilisés : `feat`, `fix`, `docs`, `refactor`, `test`, `chore` et `style`.
+Le scope est facultatif. Types retenus : `feat`, `fix`, `docs`, `refactor`, `test`, `chore` et, si nécessaire, `style`.
 
 Exemples :
 
@@ -56,37 +64,42 @@ docs(git): clarify contribution workflow
 test(grid): cover boundary conditions
 ```
 
-Les titres des Pull Requests doivent suivre la même convention. Avec Squash and merge, le titre de la PR peut devenir le message du commit final dans `main`.
+Les titres des Pull Requests doivent suivre cette convention. Avec Squash and merge, vérifie le titre du commit final avant de confirmer la fusion.
 
-Référence : [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+Référence : [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-## 5. Règles prévues pour `main`
+## 6. Protection de la branche `main`
 
-La branche `main` doit être protégée par un Ruleset ou une protection de branche adaptée. La configuration cible est la suivante :
+La branche `main` doit rester protégée. Les réglages souhaités sont :
 
-| Règle | Configuration souhaitée | État documentaire |
+| Règle | Réglage attendu | Vérification |
 |---|---|---|
-| Pull Request obligatoire | Activée | À vérifier sur GitHub |
-| Nombre d'approbations | 1 approbation | À vérifier sur GitHub |
-| Approbateur différent de l'auteur | Oui | À vérifier sur GitHub |
-| Conversations de review | Toutes résolues avant fusion | À vérifier sur GitHub |
-| Approbations devenues obsolètes | Les invalider si le diff change | À configurer selon le comportement retenu |
-| Force push sur `main` | Interdit | À vérifier sur GitHub |
-| Suppression de `main` | Interdite | À vérifier sur GitHub |
-| Méthode de fusion | Squash uniquement | À vérifier dans les paramètres de fusion |
-| Tests obligatoires | Pas encore définis | À ajouter quand les tests et Actions existeront |
+| Pull Request obligatoire | Activée | Settings → Rules → Rulesets, ou Branches selon le type de règle |
+| Approbation avant fusion | Au moins une review d'un autre membre, si la règle est activée | Ouvrir le Ruleset actif et vérifier le nombre d'approbations |
+| Conversations de review | Résolues avant fusion | Vérifier les règles du Ruleset |
+| Force push sur `main` | Interdit | Vérifier le Ruleset |
+| Suppression de `main` | Interdite | Vérifier le Ruleset |
+| Tests obligatoires | À définir lorsque les tests automatisés existeront | Ne pas rendre obligatoire un statut de test inexistant |
 
-### Attention aux approbations
+Une approbation ne peut pas être donnée par l'auteur de la Pull Request pour satisfaire une règle qui exige l'approbation d'une autre personne. Si le responsable de l'intégration ouvre sa propre PR, un autre membre doit donc la relire et l'approuver lorsque cela est exigé.
 
-Une personne ne peut pas approuver sa propre Pull Request pour satisfaire une règle d'approbation obligatoire. Si le responsable de l'intégration ouvre lui-même une PR, un autre collaborateur devra donc la relire et l'approuver.
+Le document ne doit pas prétendre qu'une règle est active si elle n'a pas été contrôlée dans l'interface GitHub. Après toute modification du Ruleset, vérifie et mets cette section à jour.
 
-Le rôle d'administrateur peut disposer de possibilités de contournement selon la configuration du Ruleset. Ces possibilités doivent être examinées consciemment : la protection de `main` n'a d'intérêt que si l'équipe évite les contournements de routine.
+## 7. Méthode de fusion et suppression des branches
 
-## 6. Issues, labels et milestones
+La méthode retenue est **Squash and merge** : les commits d'une branche sont regroupés dans un seul commit sur `main`.
 
-Les Issues servent à décrire le travail. Les modèles sont fournis dans `.github/ISSUE_TEMPLATE/`.
+La suppression automatique des branches source après leur fusion peut être activée dans **Settings → General → Pull Requests → Automatically delete head branches**.
 
-Labels de départ proposés :
+Attention : après un Squash and merge, Git peut considérer que les anciens commits de la branche ne sont pas présents dans `main`. Il peut donc refuser `git branch -d`. Le [guide de collaboration](COLLABORATION-GUIDE.md) explique comment supprimer la branche locale en vérifiant d'abord que la PR est bien fusionnée.
+
+## 8. Issues, labels et milestones
+
+Les Issues servent à décrire et suivre les bugs, fonctionnalités et tâches qui nécessitent une organisation. **Elles ne sont pas obligatoires pour chaque petite modification** : une correction documentaire simple peut passer directement par une branche et une PR.
+
+Les modèles d'Issues se trouvent dans `.github/ISSUE_TEMPLATE/`.
+
+Labels proposés :
 
 | Label | Utilisation |
 |---|---|
@@ -98,57 +111,47 @@ Labels de départ proposés :
 | `priority: normal` | Priorité normale |
 | `priority: low` | Priorité basse |
 
-Les labels devront être créés dans GitHub avec exactement les mêmes noms pour que les modèles d'Issues puissent les ajouter automatiquement.
+Les labels indiqués dans les modèles doivent exister dans les paramètres du dépôt avec exactement le même nom. Les champs de priorité dans les formulaires ne créent pas automatiquement un label de priorité : celui-ci est ajouté manuellement si nécessaire.
 
-Les milestones serviront à regrouper les Issues par version (V1, V2, etc.). Leur contenu sera défini collectivement après la clarification du jeu. Les milestones ne remplacent pas les tags Git : une milestone organise le travail, alors qu'un tag identifie un commit précis.
+Les milestones peuvent regrouper les tâches par version. Leur contenu sera décidé lorsque le jeu et ses étapes de développement seront plus précis. GitHub Projects reste facultatif au lancement.
 
-GitHub Projects reste facultatif au lancement. Un tableau simple pourra être ajouté lorsque le volume de tâches le justifiera.
+## 9. Sécurité
 
-## 7. Revue et fusion des Pull Requests
+- Ne commite jamais de mot de passe, token, clé API ou fichier `.env` contenant des secrets.
+- Le `.gitignore` exclut les environnements virtuels et les fichiers locaux courants.
+- Vérifie les fichiers ajoutés avant chaque commit et chaque Pull Request.
+- Ne partage pas tes identifiants dans Discord, Word, une Issue ou une PR.
 
-Le déroulement détaillé est décrit dans [`COLLABORATION-GUIDE.md`](COLLABORATION-GUIDE.md).
+Un `.gitignore` n'est pas un coffre-fort. Si un secret est déjà envoyé sur GitHub, l'ajouter ensuite au `.gitignore` ne l'efface pas de l'historique. Il faut révoquer ou renouveler le secret et prévenir le responsable du dépôt.
 
-En résumé :
+## 10. Licence
 
-1. le contributeur ouvre une PR vers `main` ;
-2. le responsable de l'intégration examine la description, le diff et les tests ;
-3. il demande des corrections ou approuve la PR ;
-4. après validation, il utilise Squash and merge ;
-5. la branche de travail est supprimée après la fusion, si la suppression automatique est activée.
+Aucune licence open source n'a encore été choisie. L'équipe doit en discuter avant d'ajouter un fichier `LICENSE`, en tenant compte des droits des contributeurs et des consignes de l'enseignant.
 
-## 8. Sécurité du dépôt
+Un dépôt public sans fichier de licence est consultable, mais cela ne signifie pas que les autres utilisateurs disposent d'une autorisation générale de réutiliser le code.
 
-- Ne jamais commiter de mot de passe, token, clé API ou fichier `.env`.
-- Utiliser `.gitignore` pour les fichiers locaux, environnements virtuels et fichiers sensibles qui ne doivent pas être suivis.
-- Ne jamais envoyer d'identifiants dans Discord, les Issues ou les Pull Requests.
-- Vérifier les fichiers ajoutés à une PR avant de la fusionner.
-- Examiner les alertes de dépendances et les fonctionnalités de protection des secrets disponibles pour le dépôt.
+## 11. GitHub Actions et automatisation
 
-Un `.gitignore` est une précaution pratique, pas un coffre-fort : si un secret est déjà commité, l'ajouter ensuite à `.gitignore` ne le retire pas de l'historique. Il faut alors révoquer ou renouveler le secret concerné.
+Aucun workflow GitHub Actions de test n'est activé pour le moment : le code Python et la stratégie de tests ne sont pas encore définis.
 
-## 9. Licence et réutilisation du code
+Lorsque le premier code et les tests existeront, on pourra ajouter un workflow simple qui :
 
-Aucune licence open source n'est retenue pour le moment. Le groupe doit en discuter avec l'ensemble des contributeurs et, si nécessaire, avec l'enseignant avant d'ajouter un fichier `LICENSE`.
+1. installe la version de Python retenue par l'équipe ;
+2. installe les dépendances définies dans `requirements.txt` ;
+3. exécute les tests ;
+4. signale le résultat sur chaque Pull Request vers `main`.
 
-L'absence de licence ne rend pas le dépôt privé : le code reste consultable publiquement. Elle signifie qu'aucune licence open source n'accorde une autorisation générale de réutilisation. Elle ne constitue pas une protection technique contre la copie, et les droits de chaque contributeur doivent être pris en compte.
+Ne rends pas obligatoire un statut de test dans la protection de `main` avant que le workflow existe et ait été vérifié.
 
-## 10. Automatisation
+## 12. Maintenance du document
 
-GitHub Actions sera ajouté lorsque le code et les premiers tests Python seront disponibles. La première automatisation devra rester simple : installer la version de Python retenue et exécuter les tests lors des Pull Requests vers `main`.
-
-Aucun statut de test ne doit être exigé dans un Ruleset avant que le workflow correspondant existe et ait été vérifié.
-
-## 11. Maintenance de ce document
-
-Mettre cette fiche à jour lorsqu'une règle est modifiée dans GitHub. Après une modification des Rulesets, de la méthode de fusion, des labels ou des permissions, vérifier que le document décrit bien l'état réel du dépôt.
+Mets cette fiche à jour lorsque les paramètres réels du dépôt changent : Rulesets, méthode de fusion, suppression automatique des branches, labels ou permissions des collaborateurs.
 
 ## Ressources officielles
 
-- [GitHub Docs — Rulesets disponibles](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)
+- [GitHub Docs — Règles disponibles dans les Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)
 - [GitHub Docs — Créer un Ruleset](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository)
-- [GitHub Docs — Modèles d'Issues](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
-- [GitHub Docs — Méthodes de fusion](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/about-pull-request-merges)
-- [GitHub Docs — GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)
+- [GitHub Docs — Méthodes de fusion des Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/about-pull-request-merges)
+- [GitHub Docs — Suppression automatique des branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches)
+- [GitHub Docs — Modèles d'Issues et de Pull Requests](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
-
-*Document préparé en novembre 2026. Les paramètres indiqués « à vérifier » doivent être contrôlés dans l'interface du dépôt avant de considérer la configuration comme terminée.*

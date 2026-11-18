@@ -1,10 +1,10 @@
 ## Résumé
 
-Décris brièvement ce que cette Pull Request change et pourquoi.
+Explique brièvement ce que cette Pull Request change et pourquoi.
 
-## Issue associée
+## Issue associée (facultatif)
 
-Closes #
+<!-- Si cette PR répond à une Issue, indique par exemple : Closes #12 -->
 
 ## Modifications principales
 
@@ -12,9 +12,9 @@ Closes #
 
 ## Vérifications effectuées
 
+- [ ] J'ai relu les changements (`git diff` / `git diff --staged`).
 - [ ] Le programme a été lancé lorsque c'est pertinent.
 - [ ] Les tests disponibles ont été exécutés.
-- [ ] J'ai relu les fichiers modifiés (`git diff` / `git diff --staged`).
 - [ ] Je n'ai ajouté aucun secret, token ou fichier local inutile.
 - [ ] La documentation a été mise à jour si nécessaire.
 

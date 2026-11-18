@@ -6,76 +6,78 @@
 
 ### 1.1 Objectif du programme
 
-À compléter après la validation collective du concept du jeu.
+À définir collectivement après validation du concept du jeu.
 
 ### 1.2 Contraintes connues
 
 - Langage : Python.
 - Interface : terminal / console.
-- Une grille représentée par une liste de listes est envisagée.
-- Le joueur pourrait être représenté par un caractère ou un symbole.
+- Le code source sera placé dans `src/`.
+- Les tests seront placés dans `tests/` lorsqu'ils seront créés.
 
-Ces choix devront être précisés et validés avant l'implémentation.
+Une grille représentée par une liste de listes et un joueur représenté par un caractère ou un symbole ont été évoqués comme pistes, mais restent à confirmer.
 
 ### 1.3 Environnement d'exécution
 
-- Version minimale de Python : `TBD`.
-- Systèmes ciblés : `TBD`.
-- Dépendances externes : `TBD`.
-- Commande de lancement : `TBD`.
+- Version minimale de Python : à définir.
+- Systèmes ciblés : à définir.
+- Dépendances externes : à définir.
+- Commande de lancement : à définir.
+
+Chaque membre utilisera un environnement virtuel local `.venv`. Les dépendances communes seront décrites dans `requirements.txt` lorsqu'elles seront connues.
 
 ## 2. Règles et fonctionnement général
 
 ### 2.1 Objectif du joueur
 
-`TBD` — à définir collectivement.
+À définir collectivement.
 
 ### 2.2 Déroulement d'une partie
 
-`TBD` — à définir collectivement.
+À définir collectivement.
 
 ### 2.3 Conditions de fin
 
-`TBD` — conditions de victoire, de défaite ou d'arrêt à préciser.
+Conditions de victoire, de défaite ou d'arrêt à préciser.
 
 ## 3. Architecture logicielle
 
 ### 3.1 Vue d'ensemble
 
-`TBD` — ne pas créer de modules uniquement pour remplir cette section. Les responsabilités seront définies à partir des règles et des besoins réels.
+À définir à partir des règles du jeu. Ne créez pas de modules uniquement pour remplir cette section : chaque module devra avoir une responsabilité claire.
 
 ### 3.2 Modules et responsabilités
 
 | Module | Responsabilité | État |
 |---|---|---|
-| `TBD` | À définir | Non décidé |
+| À définir | À définir | Non décidé |
 
 ### 3.3 Point d'entrée
 
-`TBD` — fichier et fonction de lancement à choisir.
+Le fichier et la fonction utilisés pour lancer le jeu restent à choisir.
 
 ## 4. Structures de données
 
 ### 4.1 Grille
 
-La représentation par liste de listes est envisagée. Il faudra préciser :
+Si le jeu utilise une grille, il faudra préciser :
 
 - la signification des lignes et des colonnes ;
 - les dimensions ;
 - le type des valeurs stockées dans chaque case ;
-- la manière de représenter une case vide ;
+- la représentation d'une case vide ;
 - les règles d'accès et de modification ;
-- les invariants à respecter.
+- les conditions qui doivent toujours rester vraies (*invariants*).
 
-Aucune structure détaillée ne doit être considérée comme définitive avant cette discussion.
+La représentation par liste de listes est une possibilité, pas encore une décision définitive.
 
 ### 4.2 Joueur
 
-La représentation par caractère ou symbole est envisagée. Il faudra préciser si cette représentation visuelle suffit ou si d'autres données doivent être conservées séparément.
+Il faudra préciser les informations nécessaires pour représenter le joueur dans le programme. Un caractère ou symbole peut servir à l'affichage, mais ne suffit pas nécessairement à représenter toutes les données du joueur.
 
 ### 4.3 Autres données
 
-`TBD` — à compléter selon le concept retenu.
+À définir selon le concept et les règles retenus.
 
 ## 5. Algorithmes et logique du jeu
 
@@ -91,14 +93,14 @@ Les algorithmes ne sont pas encore définis.
 
 ## 6. Entrées et affichage
 
-- Lecture des entrées utilisateur : `TBD`.
-- Gestion des entrées invalides : `TBD`.
-- Affichage de la grille : `TBD`.
-- Messages affichés dans le terminal : `TBD`.
+- Lecture des entrées utilisateur : à définir.
+- Gestion des entrées invalides : à définir.
+- Affichage du jeu dans le terminal : à définir.
+- Messages affichés : à définir.
 
 ## 7. Gestion des erreurs et cas limites
 
-À compléter lorsque les règles seront connues. Penser notamment aux limites de la grille, aux entrées utilisateur inattendues et aux états impossibles du jeu.
+À compléter lorsque les règles seront connues. Penser notamment aux limites de la grille si elle existe, aux entrées inattendues et aux états impossibles du jeu.
 
 ## 8. Tests
 
@@ -106,18 +108,14 @@ La stratégie de tests sera définie avec l'architecture. Elle pourra distinguer
 
 - tests unitaires des fonctions isolées ;
 - tests des règles et interactions ;
-- tests de cas limites ;
+- tests des cas limites ;
 - vérifications du déroulement général du jeu.
 
-Framework de test : `TBD`.
+Le framework et la commande de test restent à choisir.
 
 ## 9. Diagrammes
 
-À ajouter lorsque l'architecture et les règles seront suffisamment stables :
-
-- diagramme de modules ou de composants ;
-- organigrammes des algorithmes importants ;
-- diagramme d'états si le fonctionnement du jeu le justifie.
+À ajouter lorsque l'architecture et les règles seront suffisamment stables. Selon les besoins, il pourra s'agir d'un diagramme de modules, d'organigrammes ou d'un diagramme d'états.
 
 ## 10. Décisions techniques ouvertes
 
@@ -125,7 +123,7 @@ Framework de test : `TBD`.
 |---|---|---|
 | Version Python | Quelle version minimale retenir ? | À décider |
 | Organisation du code | Quels modules sont réellement nécessaires ? | À décider |
-| Représentation de la grille | Quels types de données utiliser pour les cases ? | À décider |
+| Structures de données | Quelles structures représentent les éléments du jeu ? | À décider |
 | Tests | `unittest`, `pytest` ou autre approche ? | À décider |
 | Dépendances | Le projet nécessite-t-il des bibliothèques externes ? | À décider |
 
@@ -134,3 +132,4 @@ Framework de test : `TBD`.
 | Date | Modification | Auteur |
 |---|---|---|
 | 2026-11-18 | Création de la base documentaire, sans préjuger du concept du jeu. | Équipe |
+| 2026-11-18 | Clarification de l'organisation prévue en `src/` et de l'environnement virtuel `.venv`. | Équipe |

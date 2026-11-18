@@ -1,14 +1,26 @@
-# Python
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environments
+# Virtual environments (one per developer)
 .venv/
 venv/
 env/
 
-# IDEs
+# Python packaging and build output
+build/
+dist/
+*.egg-info/
+
+# Test and quality-tool caches
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# IDEs (keep shared VS Code extension recommendations)
 .idea/
 .vscode/*
 !.vscode/extensions.json
@@ -17,12 +29,7 @@ env/
 .DS_Store
 Thumbs.db
 
-# Testing and coverage
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Environment variables and secrets
+# Local environment variables and secrets
 .env
 .env.*
 !.env.example

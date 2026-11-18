@@ -1,0 +1,13 @@
+# Normalize text files across Windows, Linux and macOS.
+* text=auto
+
+# Keep source and documentation files with LF line endings.
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.sh text eol=lf
+
+# Windows batch scripts use CRLF.
+*.bat text eol=crlf

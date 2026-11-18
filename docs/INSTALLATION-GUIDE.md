@@ -1,108 +1,89 @@
-# Guide d'installation et de configuration
+# Guide d'installation — préparer son ordinateur
 
-Ce guide accompagne chaque membre dans la préparation de son environnement de développement. Il présente Git, GitHub CLI et Visual Studio Code sous Windows et Linux, avec une attention particulière à Arch Linux.
+Ce guide explique comment installer les outils nécessaires au projet et connecter son ordinateur au dépôt GitHub. Il est destiné aux membres qui n'ont jamais utilisé Git.
 
-Les commandes d'installation peuvent évoluer selon les versions des systèmes. En cas de différence, privilégie toujours la documentation officielle de l'outil ou de ta distribution.
+Tu n'as pas besoin de tout comprendre immédiatement : suis les étapes dans l'ordre et vérifie les commandes indiquées.
 
-## 1. Les outils utilisés dans le projet
+## 1. Les outils nécessaires
 
-| Outil | Rôle |
-|---|---|
-| Python 3 | Langage utilisé pour développer le jeu. |
-| Git | Gestion des versions du code. |
-| GitHub | Hébergement du dépôt et collaboration. |
-| GitHub CLI (`gh`) | Utiliser les Issues et Pull Requests depuis le terminal. |
-| Visual Studio Code | Éditeur recommandé pour le code et la documentation. |
+| Outil | À quoi sert-il ? | Obligatoire ? |
+|---|---|---|
+| Python 3 | Exécuter et développer le jeu. | Oui |
+| Git | Enregistrer l'historique des modifications. | Oui |
+| GitHub | Héberger le code et collaborer en ligne. | Oui |
+| GitHub CLI (`gh`) | Se connecter à GitHub et gérer les PR depuis le terminal. | Recommandé |
+| Visual Studio Code | Éditer le code et la documentation. | Non, mais recommandé |
 
-Visual Studio Code est recommandé pour faciliter l'entraide et partager une sélection d'extensions. Il n'est pas obligatoire : chacun peut utiliser un autre éditeur s'il sait suivre le workflow du projet.
+Le projet utilise une adresse GitHub en **HTTPS**. Il n'est pas nécessaire de créer une clé SSH pour suivre ce guide.
 
 ## 2. Installer les outils sous Windows
 
-### Git
+Ouvre **PowerShell**. Les commandes ci-dessous utilisent `winget`, le gestionnaire de paquets présent sur les versions récentes de Windows. Si `winget` n'est pas disponible, utilise les liens de téléchargement officiels indiqués sous chaque outil.
 
-1. Ouvre [git-scm.com/download/win](https://git-scm.com/download/win).
-2. Télécharge l'installateur adapté à ton ordinateur.
-3. Lance l'installation. Pour une première utilisation, les options proposées par défaut conviennent généralement.
-4. Ouvre un nouveau terminal PowerShell ou Git Bash et vérifie :
+### 2.1 Installer Git
+
+```powershell
+winget install --id Git.Git -e
+```
+
+Tu peux aussi télécharger Git depuis [git-scm.com](https://git-scm.com/download/win).
+
+Ferme puis rouvre PowerShell, puis vérifie :
 
 ```powershell
 git --version
 ```
 
-### GitHub CLI
-
-Si Windows Package Manager (`winget`) est disponible :
+### 2.2 Installer GitHub CLI
 
 ```powershell
-winget install --id GitHub.cli
+winget install --id GitHub.cli -e
 ```
 
-Ferme puis rouvre le terminal et vérifie :
+Vérifie :
 
 ```powershell
 gh --version
 ```
 
-Tu peux aussi suivre la méthode officielle : [Installation de GitHub CLI](https://github.com/cli/cli#installation).
+Page officielle : [Installation de GitHub CLI](https://github.com/cli/cli#installation).
 
-### Visual Studio Code
+### 2.3 Installer Python
 
-1. Télécharge VS Code depuis [code.visualstudio.com](https://code.visualstudio.com/).
-2. Lance l'installateur.
-3. Pendant l'installation, les options permettant d'ajouter `code` au PATH et d'ouvrir un dossier avec VS Code sont pratiques.
-4. Ouvre un nouveau terminal et vérifie, si la commande est disponible :
+Télécharge Python 3 depuis [python.org/downloads](https://www.python.org/downloads/). Pendant l'installation, conserve le lanceur Python (`py`) si l'installateur le propose.
 
-```powershell
-code --version
-```
-
-### Python
-
-Télécharge une version prise en charge de Python depuis [python.org](https://www.python.org/downloads/). Pendant l'installation Windows, active l'option permettant d'ajouter Python au PATH si elle est proposée.
-
-Vérifie ensuite :
+Ouvre un nouveau PowerShell et vérifie :
 
 ```powershell
 py --version
 ```
 
-ou :
+Si `py` n'est pas disponible, essaie :
 
 ```powershell
 python --version
 ```
 
-La version minimale requise par le projet sera ajoutée au README lorsqu'elle sera décidée.
+La version minimale de Python sera choisie par l'équipe au moment de définir le projet. Une fois ce choix fait, chaque membre devra installer cette même version.
+
+### 2.4 Installer Visual Studio Code (facultatif)
+
+Télécharge VS Code depuis [code.visualstudio.com](https://code.visualstudio.com/). Pendant l'installation, l'option qui ajoute la commande `code` au PATH est pratique.
+
+Vérifie si la commande est disponible :
+
+```powershell
+code --version
+```
 
 ## 3. Installer les outils sous Linux
 
-Les commandes dépendent de la distribution. La section suivante donne des exemples pour Arch Linux et les distributions basées sur Debian/Ubuntu.
+Les commandes dépendent de la distribution. Utilise uniquement la section correspondant à ton système.
 
-### Arch Linux et distributions dérivées
-
-Installe Git et GitHub CLI avec `pacman` :
+### 3.1 Arch Linux et Omarchy
 
 ```bash
-sudo pacman -S --needed git github-cli
-```
-
-Pour Visual Studio Code, deux possibilités courantes existent :
-
-- installer la version Code - OSS proposée par les dépôts de ta distribution, si elle te convient ;
-- installer la version Microsoft de Visual Studio Code depuis le site officiel ou depuis une source de paquets fiable adaptée à Arch Linux.
-
-Sur une installation utilisant un helper AUR comme `yay`, le paquet `visual-studio-code-bin` est une possibilité :
-
-```bash
-yay -S visual-studio-code-bin
-```
-
-Cette dernière commande suppose que `yay` est déjà installé. N'installe pas un helper AUR uniquement en copiant une commande trouvée au hasard : vérifie d'abord sa provenance et son fonctionnement.
-
-Python 3 est généralement disponible dans les dépôts :
-
-```bash
-sudo pacman -S --needed python
+sudo pacman -S --needed git github-cli python python-pip
 ```
 
 Vérifie les installations :
@@ -111,52 +92,78 @@ Vérifie les installations :
 git --version
 gh --version
 python --version
-code --version
 ```
 
-La commande `code` dépend du paquet installé. Avec certaines distributions Code - OSS, l'accès au Visual Studio Marketplace peut différer de celui de la version Microsoft. Si une extension n'apparaît pas, vérifie la distribution de l'éditeur et la documentation de celle-ci.
+Pour Visual Studio Code, tu peux utiliser l'éditeur fourni par ta distribution ou installer la version Microsoft depuis son site officiel. Sur Arch, les paquets et leurs sources peuvent différer : vérifie ce que tu installes et ne lance pas une commande AUR provenant d'un site inconnu.
 
-### Debian et Ubuntu
-
-Git et Python sont disponibles dans les dépôts :
+### 3.2 Debian et Ubuntu
 
 ```bash
 sudo apt update
-sudo apt install git python3
+sudo apt install git python3 python3-venv python3-pip
 ```
 
-Pour GitHub CLI, suis la procédure officielle adaptée à ta version de distribution : [GitHub CLI — Installation](https://github.com/cli/cli#installation).
-
-Pour Visual Studio Code, utilise le paquet officiel Microsoft ou la méthode recommandée sur [code.visualstudio.com](https://code.visualstudio.com/).
-
-## 4. Configurer Git
-
-Git doit connaître le nom et l'adresse e-mail à inscrire dans les commits. Ces informations ne sont pas ton mot de passe GitHub.
+Vérifie :
 
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "your-github-email@example.com"
+git --version
+python3 --version
 ```
 
-Utilise une adresse vérifiée dans les paramètres de ton compte GitHub. Si tu souhaites préserver ton adresse personnelle, GitHub peut fournir une adresse `noreply` dans les paramètres de confidentialité de l'adresse e-mail.
+Installe ensuite GitHub CLI en suivant la procédure officielle adaptée à ta distribution : [GitHub CLI — Installation](https://github.com/cli/cli#installation). Cela évite d'utiliser un dépôt tiers ou une commande qui ne correspondrait pas à ta version de Debian/Ubuntu.
 
-Vérifie la configuration :
+Pour Visual Studio Code, utilise [le site officiel](https://code.visualstudio.com/).
+
+### 3.3 macOS
+
+Si Homebrew est déjà installé, tu peux installer Git, GitHub CLI et Python avec :
+
+```bash
+brew install git gh python
+```
+
+Vérifie ensuite :
+
+```bash
+git --version
+gh --version
+python3 --version
+```
+
+Si Homebrew n'est pas installé, consulte sa documentation officielle avant de l'installer : [brew.sh](https://brew.sh/). Pour Visual Studio Code, utilise [le site officiel](https://code.visualstudio.com/).
+
+## 4. Configurer son identité Git
+
+Git doit connaître le nom et l'adresse e-mail à inscrire dans les commits. Ces informations permettent de savoir qui a enregistré une modification. **Ce ne sont pas les identifiants de connexion à GitHub.**
+
+Dans un terminal :
+
+```bash
+git config --global user.name "Ton Nom"
+git config --global user.email "ton-adresse@example.com"
+```
+
+Remplace les exemples par ton nom et une adresse e-mail vérifiée dans ton compte GitHub. Si tu ne souhaites pas afficher ton adresse personnelle, GitHub propose une adresse `noreply` dans les paramètres du compte, section **Emails**.
+
+Vérifie :
 
 ```bash
 git config --global --list
 ```
 
-Pour examiner la valeur d'un paramètre et son fichier d'origine :
+L'option `--global` signifie que ce réglage s'applique à tous tes dépôts Git sur cet ordinateur. Tu n'as normalement à faire cette configuration qu'une fois.
+
+## 5. Se connecter à GitHub
+
+Pour envoyer des modifications vers GitHub, Git doit pouvoir s'authentifier. On utilise GitHub CLI (`gh`) afin d'éviter de gérer manuellement un token.
+
+### 5.1 Vérifier que GitHub CLI est installé
 
 ```bash
-git config --show-origin --get user.email
+gh --version
 ```
 
-## 5. Se connecter à GitHub en HTTPS
-
-Le projet utilise une URL distante HTTPS. GitHub n'accepte pas le mot de passe du compte comme mot de passe Git pour les opérations HTTPS.
-
-La méthode recommandée pour commencer est GitHub CLI :
+### 5.2 Lancer la connexion
 
 ```bash
 gh auth login
@@ -164,151 +171,135 @@ gh auth login
 
 Dans l'assistant :
 
-1. sélectionne `GitHub.com` ;
-2. choisis `HTTPS` ;
-3. accepte l'authentification Git avec les identifiants GitHub si la question est proposée ;
-4. termine la connexion dans le navigateur.
+1. sélectionne **GitHub.com** ;
+2. choisis **HTTPS** comme protocole Git ;
+3. choisis l'authentification avec un navigateur si elle est proposée ;
+4. ouvre le lien affiché et saisis le code temporaire dans le navigateur ;
+5. confirme l'autorisation demandée.
 
-Vérifie ensuite :
+Le code affiché est temporaire et personnel : ne le partage avec personne.
+
+### 5.3 Configurer Git pour utiliser cette connexion
+
+Après la connexion, lance :
+
+```bash
+gh auth setup-git
+```
+
+Cette commande configure Git pour utiliser GitHub CLI comme gestionnaire d'identifiants lors des opérations HTTPS.
+
+Vérifie la connexion :
 
 ```bash
 gh auth status
 ```
 
-Une autre possibilité est d'utiliser un gestionnaire d'identifiants compatible avec Git et OAuth, comme Git Credential Manager. Il n'est pas nécessaire de configurer plusieurs solutions simultanément pour ce projet.
+Tu dois voir le compte GitHub connecté et le protocole HTTPS.
 
-**Sécurité :** ne place jamais un token dans un fichier suivi par Git, une commande conservée dans un script, une Issue, une Pull Request, Discord ou une capture d'écran. N'envoie jamais tes identifiants à un autre membre.
+> La connexion à GitHub ne donne pas automatiquement accès à tous les dépôts privés. Pour pouvoir envoyer des modifications à notre dépôt, tu dois avoir accepté l'invitation de collaborateur envoyée par le responsable du projet.
 
-## 6. Installer et ouvrir le projet dans VS Code
+## 6. Récupérer le dépôt du projet
 
-Clone le dépôt :
+Choisis un dossier de ton ordinateur dans lequel ranger tes projets, puis exécute :
 
 ```bash
 git clone https://github.com/The-Last-Echo/projet-nsi.git
 cd projet-nsi
 ```
 
-Ouvre le dossier dans VS Code :
+La commande `git clone` télécharge le dépôt et crée le dossier `projet-nsi`. La commande `cd` entre dans ce dossier.
+
+Vérifie que tout fonctionne :
+
+```bash
+git status
+git remote -v
+```
+
+Tu dois être sur la branche `main`. L'adresse distante doit correspondre à `https://github.com/The-Last-Echo/projet-nsi.git`.
+
+Le dépôt est public : il est possible de le télécharger sans être connecté. En revanche, pour envoyer des commits, tu dois être connecté et avoir les droits nécessaires.
+
+## 7. Ouvrir le projet dans VS Code
+
+Depuis le dossier `projet-nsi` :
 
 ```bash
 code .
 ```
 
-Si la commande `code` n'est pas disponible, ouvre VS Code depuis le menu de ton système, puis utilise **File → Open Folder** pour sélectionner le dossier `projet-nsi`.
+Si la commande `code` n'est pas disponible, ouvre VS Code depuis le menu de ton système, puis utilise **File → Open Folder** et sélectionne le dossier `projet-nsi`.
 
-## 7. Extensions VS Code recommandées
+## 8. Extensions VS Code recommandées
 
-Les extensions proposées par le dépôt sont répertoriées dans [`.vscode/extensions.json`](../.vscode/extensions.json). VS Code peut afficher une notification pour les installer. Ces recommandations ne les installent pas de force : chaque utilisateur garde le contrôle.
+Les extensions conseillées par le dépôt sont indiquées dans [`.vscode/extensions.json`](../.vscode/extensions.json). VS Code peut proposer de les installer lorsque tu ouvres le projet. Tu gardes le choix de les installer ou non.
 
-Pour ouvrir le panneau des extensions :
+| Extension | Utilité |
+|---|---|
+| Python (Microsoft) | Exécuter, déboguer et sélectionner l'interpréteur Python. |
+| GitLens | Consulter l'historique et comprendre les modifications ligne par ligne. |
+| GitHub Pull Requests and Issues | Consulter et relire les PR et Issues dans VS Code. |
+| Markdown All in One | Faciliter la rédaction des fichiers Markdown. |
+
+Pour afficher les extensions dans VS Code :
 
 - Windows/Linux : `Ctrl + Shift + X` ;
-- recherche une extension par son nom ;
-- vérifie son éditeur et sa page Marketplace avant de l'installer.
+- recherche le nom de l'extension ;
+- vérifie l'éditeur indiqué avant l'installation.
 
-### Python — Microsoft
+Après avoir installé l'extension Python, ouvre un fichier `.py`, puis lance **Python: Select Interpreter** depuis la palette de commandes (`Ctrl + Shift + P`). Tu pourras sélectionner l'environnement virtuel du projet après l'avoir créé.
 
-**À installer.** Cette extension ajoute notamment l'exécution, le débogage, la sélection de l'interpréteur Python et l'intégration des tests.
+## 9. Préparer l'environnement Python
 
-Après installation :
+Chaque membre doit créer un environnement virtuel local pour le projet. Il permet d'installer les bibliothèques Python du projet sans les mélanger avec celles des autres projets ou du système.
 
-1. ouvre un fichier `.py` ;
-2. ouvre la palette de commandes avec `Ctrl + Shift + P` ;
-3. lance `Python: Select Interpreter` ;
-4. sélectionne l'interpréteur ou l'environnement virtuel du projet.
+Suis le [guide de l'environnement Python](PYTHON-ENVIRONMENT.md). Le dossier `.venv/` est déjà exclu du dépôt grâce au `.gitignore` : il ne doit pas être envoyé sur GitHub.
 
-Marketplace : [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python).
+## 10. Vérification finale
 
-### Pylance — Microsoft
-
-Pylance fournit l'analyse du code, l'autocomplétion et la navigation dans les symboles Python. L'extension Python installe généralement Pylance comme extension associée ; vérifie sa présence avant de l'installer séparément.
-
-Marketplace : [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
-
-### GitLens
-
-**Fortement recommandée.** GitLens aide à comprendre l'historique du code : auteur d'une ligne (*blame*), historique d'un fichier, comparaison de commits et graphe des branches.
-
-Pour commencer :
-
-1. ouvre un fichier suivi par Git ;
-2. utilise les annotations GitLens pour voir quel commit a modifié une ligne ;
-3. ouvre la vue GitLens dans la barre latérale pour consulter l'historique et le graphe.
-
-Ces informations aident à comprendre une modification, mais ne remplacent pas la lecture du code ni la review.
-
-Marketplace : [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens).
-
-### GitHub Pull Requests and Issues
-
-**Recommandée pour les personnes qui relisent ou suivent des PR.** Elle permet de consulter les Pull Requests et Issues depuis VS Code, d'examiner les fichiers modifiés et de commenter les lignes.
-
-Après connexion à GitHub, ouvre la vue GitHub Pull Requests dans la barre latérale et sélectionne une Pull Request à examiner.
-
-Marketplace : [GitHub Pull Requests and Issues](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github).
-
-### Markdown All in One
-
-**Recommandée pour la documentation.** Elle facilite l'écriture de fichiers Markdown : listes, raccourcis et tables des matières.
-
-Marketplace : [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one).
-
-### Ruff
-
-**À adopter lorsque les conventions Python de l'équipe seront décidées.** Ruff peut signaler des problèmes de style, certains imports inutilisés et formater le code. Il ne faut pas laisser chaque membre appliquer des règles différentes : sa configuration devra être partagée dans le dépôt avant de devenir une règle commune.
-
-Marketplace : [Ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
-
-### Git Graph — facultative
-
-GitLens couvre déjà une bonne partie de la visualisation de l'historique. Git Graph est une alternative si quelqu'un préfère une vue graphique dédiée des branches et commits. Il n'est pas nécessaire d'installer les deux.
-
-Marketplace : [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph).
-
-## 8. Tester l'installation
-
-Exécute les commandes suivantes :
+Avant de commencer à travailler, vérifie les commandes disponibles :
 
 ```bash
 git --version
-gh --version
 python --version
+gh --version
 git config --global --list
 gh auth status
 ```
 
-Puis vérifie que le dépôt est accessible :
+Sur Windows, utilise `py --version` si `python --version` n'est pas reconnu.
+
+Dans le dossier du projet :
 
 ```bash
-git clone https://github.com/The-Last-Echo/projet-nsi.git
-cd projet-nsi
 git status
+git remote -v
 ```
 
-Le résultat de `git status` doit indiquer que tu es sur `main` et que l'arbre de travail est propre si tu n'as pas encore modifié de fichier.
+Tu dois être sur `main`, avec un dépôt propre, et voir l'adresse GitHub du projet comme dépôt distant.
 
-## 9. Problèmes courants
+## 11. Problèmes fréquents
 
-| Problème | Piste de résolution |
+| Message ou problème | Que vérifier ? |
 |---|---|
-| `git: command not found` | Vérifie l'installation de Git et ouvre un nouveau terminal. |
+| `git: command not found` ou commande inconnue | Vérifie l'installation de Git, puis ferme et rouvre le terminal. |
 | `gh: command not found` | Vérifie l'installation de GitHub CLI et le PATH. |
-| `Authentication failed` | Relance `gh auth login`, puis `gh auth status`. |
-| `Repository not found` | Vérifie l'URL, l'orthographe du dépôt et l'acceptation de ton invitation. |
-| VS Code ne trouve pas Python | Lance `Python: Select Interpreter` et sélectionne le bon interpréteur. |
-| Une extension est introuvable | Vérifie si tu utilises Microsoft VS Code ou une distribution Code - OSS, puis consulte la page de l'extension. |
+| `python` n'est pas reconnu sous Windows | Essaie `py --version` ou relance l'installateur Python en vérifiant le lanceur. |
+| `Authentication failed` | Lance `gh auth status`, puis reconnecte-toi avec `gh auth login` si nécessaire. |
+| `Repository not found` ou accès refusé | Vérifie l'adresse du dépôt et assure-toi d'avoir accepté l'invitation de collaborateur. |
+| `Permission denied` pendant un push | Vérifie que tu es connecté au bon compte et que tu as accepté l'invitation. |
+| VS Code ne trouve pas Python | Installe l'extension Python puis choisis l'interpréteur avec `Python: Select Interpreter`. |
 
-Si le problème persiste, copie le message d'erreur en masquant les éventuels chemins personnels ou informations sensibles et demande de l'aide à l'équipe.
+Si le problème persiste, demande de l'aide à l'équipe avec le message d'erreur complet. Masque les chemins personnels si nécessaire et ne partage jamais de mot de passe, token ou code de connexion.
 
-## Ressources officielles et pour aller plus loin
+## Ressources officielles
 
 - [Télécharger Git](https://git-scm.com/downloads)
 - [Documentation Git](https://git-scm.com/doc)
 - [Installer GitHub CLI](https://github.com/cli/cli#installation)
 - [Manuel GitHub CLI](https://cli.github.com/manual/)
 - [Télécharger Visual Studio Code](https://code.visualstudio.com/)
-- [Documentation VS Code — Extensions](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace)
 - [Documentation Python](https://docs.python.org/3/)
-- [GitHub — gestion des identifiants avec HTTPS](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github)
+- [Authentification GitHub avec HTTPS](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github)
 
-*Dernière vérification des liens et des procédures : novembre 2026. Les commandes d'installation dépendent de la distribution et de ses dépôts.*
