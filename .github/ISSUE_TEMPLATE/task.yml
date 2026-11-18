@@ -1,0 +1,52 @@
+name: Proposer une tâche
+description: Décrire un travail à réaliser ou une amélioration à étudier.
+title: "[Task]: "
+labels:
+  - "type: task"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Décris le besoin et le résultat attendu. Si la proposition concerne une fonctionnalité du jeu, vérifie qu'elle correspond aux règles décidées collectivement.
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexte et objectif
+      description: Pourquoi cette tâche est-elle utile ? Quel problème cherche-t-elle à résoudre ?
+    validations:
+      required: true
+  - type: textarea
+    id: work
+    attributes:
+      label: Travail à réaliser
+      description: Décris les changements envisagés, sans imposer inutilement une implémentation.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critères de validation
+      description: Comment saura-t-on que la tâche est terminée ?
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorité proposée
+      options:
+        - À déterminer
+        - Haute
+        - Normale
+        - Basse
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Informations complémentaires
+      description: Liens, idées ou contraintes utiles.
+    validations:
+      required: false
