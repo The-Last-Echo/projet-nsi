@@ -1,0 +1,58 @@
+name: Signaler un bug
+description: Signaler un comportement inattendu ou une erreur du programme.
+title: "[Bug]: "
+labels:
+  - "type: bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de décrire le problème aussi précisément que possible. Vérifie qu'une Issue similaire n'existe pas déjà.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Description du problème
+      description: Que se passe-t-il ?
+      placeholder: Décris le comportement observé.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Étapes pour reproduire le problème
+      description: Indique les actions à effectuer pour observer le bug.
+      placeholder: |
+        1. Lancer le programme...
+        2. Choisir...
+        3. Observer...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+      description: Qu'aurais-tu dû observer ?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportement observé
+      description: Que s'est-il réellement passé ? Ajoute le message d'erreur si nécessaire.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environnement
+      description: Système, version de Python et méthode de lancement, si connus.
+      placeholder: "Windows 11, Python 3.x"
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: Informations complémentaires
+      description: Captures d'écran ou informations utiles. Ne joins jamais de mot de passe ni de token.
+    validations:
+      required: false
