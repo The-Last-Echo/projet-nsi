@@ -1,4 +1,3 @@
-
 import curses
 import time
 import random
@@ -8,17 +7,18 @@ import levels
 
 current_level = 1
 game_map = levels.levels[current_level]
+frames_between_shots = 4
 
 
 def save(map: list):
-	with open("save.csv", "w", newline="") as csvfile:
+	with open("./save/save_map.csv", "w", newline="") as csvfile:
 		writer = csv.writer(csvfile)
 
 		writer.writerows(map)
 
 
 def load_last_save() -> list:
-	with open("save.csv", newline="") as csvfile:
+	with open("./save/save_map.csv", newline="") as csvfile:
 		reader = csv.reader(csvfile)
 		map = []
 		for row in reader:
@@ -30,7 +30,7 @@ def get_player_position(game_map): #find the player position on the map
     for y in range(len(game_map)):
         for x in range(len(game_map[y])):
             if game_map[y][x] == " P ":
-                return [x, y]
+                return (x, y)
     return None
 
 
@@ -40,12 +40,12 @@ def get_enemy_positions(game_map): #find all enemy positions on the map
     for y in range(len(game_map)):
         for x in range(len(game_map[y])):
             if game_map[y][x] == " E ":
-                enemies.append([x, y])
+                enemies.append((x, y))
 
     return enemies
 
 
-def get_block(game_map, x, y, direction): #return the block in the direction of the player
+def get_new_pos(game_map, x, y, direction): #return the block in the direction of the player
     if direction == "up":
         y -= 1
     elif direction == "right":
@@ -55,32 +55,19 @@ def get_block(game_map, x, y, direction): #return the block in the direction of 
     elif direction == "left":
         x -= 1
 
-    return game_map[y][x]
+    return (x, y)
 
 
-def get_block_type(block): #return the type of the block
-    if block == " # ":
-        return "wall"
-    elif block == " . ":
+def check_new_pos(map, new_pos): #check what happens when the player touches a block
+    tile = map[new_pos[1]][new_pos[0]]
+
+    if tile == " . ":
         return "empty"
-    elif block == " E ":
-        return "enemy"
-    elif block == " W ":
-        return "win"
-
-    return "unknown"
-
-
-def check_block(block): #check what happens when the player touches a block
-    block_type = get_block_type(block)
-
-    if block_type == "wall":
-        return "blocked"
-    elif block_type == "empty":
-        return "move"
-    elif block_type == "enemy":
-        return "error"
-    elif block_type == "win":
+    elif tile == " E ":
+        return "ennemy"
+    elif tile == " P ":
+    	return "player"
+    elif tile == " W ":
         return "win"
 
     return "blocked"
@@ -94,35 +81,25 @@ def move_enemies(game_map): #move all enemies randomly or attack the player
         y = enemies[enemy_number][1]
 
         #check if an enemy sees the player
-        if game_map[y - 1][x] == " P ":
-            return True
-        elif game_map[y + 1][x] == " P ":
-            return True
-        elif game_map[y][x - 1] == " P ":
-            return True
-        elif game_map[y][x + 1] == " P ":
+        if game_map[y][x-1] == " P ":
+           	return True
+        elif game_map[y][x+1] == " P ":
+           	return True
+        elif game_map[y-1][x] == " P ":
+           	return True
+        elif game_map[y+1][x] == " P ":
             return True
 
         #choose a random direction
         directions = ["up", "right", "down", "left"]
         direction = random.choice(directions)
 
-        block = get_block(game_map, x, y, direction)
+        new_pos = get_new_pos(game_map, x, y, direction)
 
         #move the enemy if the block is empty
-        if block == " . ":
+        if check_new_pos(game_map, new_pos) == "empty":
             game_map[y][x] = " . "
-
-            if direction == "up":
-                y -= 1
-            elif direction == "right":
-                x += 1
-            elif direction == "down":
-                y += 1
-            elif direction == "left":
-                x -= 1
-
-            game_map[y][x] = " E "
+            game_map[new_pos[1]][new_pos[0]] = " E "
 
     return False
 
@@ -138,15 +115,17 @@ def refresh(stdscr, game_map, status): #refresh the screen with the current map
     enemies = get_enemy_positions(game_map)
     stats = " # Level: " + str(current_level)
     stats += " | Enemies: " + str(len(enemies))
+    stats += " | " + status
+    stdscr.addstr(1, 0, stats)
 
     #display the map
-    for x in range(len(game_map)):
+    for y in range(len(game_map)):
         line = ""
 
-        for y in range(len(game_map[x])):
-            line += game_map[x][y]
+        for x in range(len(game_map[y])):
+            line += game_map[y][x]
 
-        stdscr.addstr(x + 2, 0, line)
+        stdscr.addstr(y + 2, 0, line)
 
     stdscr.refresh()
 
@@ -154,12 +133,13 @@ def refresh(stdscr, game_map, status): #refresh the screen with the current map
 def game(stdscr):
     global game_map
 
-    playerPosition = get_player_position(game_map)
+    player_pos = get_player_position(game_map)
 
     stdscr.keypad(True)
     stdscr.timeout(100)
 
     status = ""
+    refresh(stdscr, game_map, status)
 
     while True:
         key = stdscr.getch()
@@ -178,54 +158,49 @@ def game(stdscr):
         elif key in [curses.KEY_LEFT, ord("q")]:
             direction = "left"
 
-        if direction != None:
-            playerPosition = get_player_position(game_map)
+        if direction:
 
-            x = playerPosition[0]
-            y = playerPosition[1]
+            #move the player
+            player_pos = get_player_position(game_map)
 
-            block = get_block(game_map, x, y, direction)
-            action = check_block(block)
+            player_pos_x = player_pos[0]
+            player_pos_y = player_pos[1]
 
-            if action == "move":
-                game_map[y][x] = " . "
+            new_pos = get_new_pos(game_map, player_pos_x, player_pos_y, direction)
+            tile = check_new_pos(game_map, new_pos)
 
-                if direction == "up":
-                    y -= 1
-                elif direction == "right":
-                    x += 1
-                elif direction == "down":
-                    y += 1
-                elif direction == "left":
-                    x -= 1
-
-                game_map[y][x] = " P "
+            if tile == "empty":
+                game_map[player_pos_y][player_pos_x] = " . "
+                game_map[new_pos[1]][new_pos[0]] = " P "
                 status = ""
 
-                #move enemies after the player moves
-                game_over = move_enemies(game_map)
-
-                if game_over:
-                    status = "An enemy attacks you!"
-                    refresh(stdscr, game_map, status)
-                    time.sleep(1)
-                    break
-
-            elif action == "error":
-                status = "Error: You touched an enemy!"
+            elif tile == "ennemy":
+                status = "You touched an enemy !"
                 refresh(stdscr, game_map, status)
                 time.sleep(1)
                 break
 
-            elif action == "win":
-                status = "WIN! You won!"
+            elif tile == "win":
+                status = "You won !"
+                refresh(stdscr, game_map, status)
+                time.sleep(1)
+                break
+
+            refresh(stdscr, game_map, status)
+            time.sleep(0.1) #time between player refresh and ennemy refresh
+
+            #move enemies after the player moves
+            game_over = move_enemies(game_map)
+
+            if game_over:
+                status = "An enemy attacks you !"
                 refresh(stdscr, game_map, status)
                 time.sleep(1)
                 break
 
             refresh(stdscr, game_map, status)
             save(game_map)
-            time.sleep(0.1) #The minimum time before player can act again (in seconds)
+            time.sleep(0) #The minimum time before player can act again (in seconds)
 
 
 curses.wrapper(game)
